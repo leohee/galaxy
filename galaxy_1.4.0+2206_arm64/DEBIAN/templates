@@ -1,0 +1,5 @@
+Template: Daheng/galaxy
+Type: boolean
+Default: true
+Description: Driver for galaxy series cameras.
+

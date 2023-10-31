@@ -1,0 +1,30 @@
+#!/bin/sh
+
+set -e
+
+echo "postinst $1 ..."
+
+UDEV_RULES_PATH=/etc/udev/rules.d
+UDEV_RULES_FILE=99-galaxy-u3v.rules
+LIMITS_CONF_PATH=/etc/security/limits.d
+LIMITS_CONF_FILE=galaxy-limits.conf
+
+case "$1" in
+    configure|upgrade)
+        cp -f /usr/local/share/galaxy/$UDEV_RULES_FILE $UDEV_RULES_PATH/$UDEV_RULES_FILE
+        cp -f /usr/local/share/galaxy/$LIMITS_CONF_FILE $LIMITS_CONF_PATH/$LIMITS_CONF_FILE
+        sh /usr/local/share/galaxy/SetUSBStack.sh  || true
+        service udev reload &> /dev/null
+        service udev restart &> /dev/null
+        systemctl restart systemd-udevd.service &> /dev/null
+        ldconfig
+    ;;
+
+    *)
+        echo "unknown argument '$1'" >&2
+        exit 0
+    ;;
+esac
+
+exit 0
+

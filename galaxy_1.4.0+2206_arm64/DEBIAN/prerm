@@ -1,0 +1,30 @@
+#!/bin/sh
+
+set -e
+
+echo "prerm $1 ..."
+
+UDEV_RULES_PATH=/etc/udev/rules.d
+UDEV_RULES_FILE=99-galaxy-u3v.rules
+LIMITS_CONF_PATH=/etc/security/limits.d
+LIMITS_CONF_FILE=galaxy-limits.conf
+
+case "$1" in
+    upgrade|remove)
+        if [ -e $UDEV_RULES_PATH/$UDEV_RULES_FILE ]; then
+            rm -f $UDEV_RULES_PATH/$UDEV_RULES_FILE
+        fi
+
+        if [ -e $LIMITS_CONF_PATH/$LIMITS_CONF_FILE ]; then
+            rm -f $LIMITS_CONF_PATH/$LIMITS_CONF_FILE
+        fi
+    ;;
+
+    *)
+        echo "unknown argument '$1'" >&2
+        exit 0
+    ;;
+esac
+
+exit 0
+

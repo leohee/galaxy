@@ -1,0 +1,11 @@
+Package: galaxy
+Version: 1.4.0
+Section: devel
+Priority: extra
+Depends:
+Installed-Size: 12796
+Architecture: arm64
+Maintainer: galaxy@daheng.com
+Providers: Daheng
+Description: Driver for galaxy series camera.
+
